@@ -1,6 +1,9 @@
 import { getInitialData } from '../utils/api'
-import { receiveUsers } from '../action/users'
+import { receiveUsers } from '../actions/users'
 import { receiveQuestions } from '../actions/questions'
+import { setAuthedUser } from '../actions/setAuthedUser'
+
+const AUTHED_ID = 'sarahedo'
 //use redux thunk pathern 
 //to make synchronize request
 export function handleInitialData (){
@@ -9,6 +12,7 @@ export function handleInitialData (){
 		.then(( users, questions)=>{
 			dispatch(receiveUsers(users))
 			dispatch(receiveQuestion(questions))
+			dispatch(setAuthedUser(AUTHED_ID))
 		})
 	}
 }
