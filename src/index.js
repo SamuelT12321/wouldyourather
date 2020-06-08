@@ -6,6 +6,7 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
 import middleware from './middleware'
+import 'materialize-css/dist/css/materialize.min.css'
 
 const store = createStore(reducer, middleware)
 
