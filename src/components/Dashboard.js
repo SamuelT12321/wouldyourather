@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import M from 'materialize-css/dist/js/materialize.min.js'
+import { connect } from 'react-redux'
+import M, { objectSelectorString } from 'materialize-css/dist/js/materialize.min.js'
+import { queries } from '@testing-library/react';
 
 export class Dashboard extends Component {
     componentDidMount(){
@@ -8,6 +10,7 @@ export class Dashboard extends Component {
     }
 
     render() {
+        console.log(this.props);
         return (
             <div className="row">
             <div className="col s12">
@@ -64,4 +67,52 @@ export class Dashboard extends Component {
     }
 }
 
-export default Dashboard
+function mapStateToProps ({ questions, authedUser }) {
+    let answered = [];
+    let notanswer = [];
+
+    for (const key in questions) { 
+      //optional check for properties from prototype chain
+      if (questions.hasOwnProperty(key)) {
+          let existsInOne = Object.values(questions[key].optionOne.votes).includes(authedUser);
+                            
+          let existsInTwo = Object.values(questions[key].optionTwo.votes).includes(authedUser);
+          if(existsInOne || existsInTwo)
+          {
+            answered.push(questions[key]);
+          }
+          else 
+          {
+            notanswer.push(questions[key]);
+          }   
+      }
+    }
+
+
+    let { true: with_, false: without } = 
+    Object.keys(questions)
+    .sort((a,b)=>questions[b].timestamp - questions[a].timestamp)
+    .reduce((key,index)=>{ 
+      key[questions[index].optionOne.votes.includes(authedUser)
+          || questions[index].optionTwo.votes.includes(authedUser)].push(index);
+      return key; 
+    }, { true: [], false: [] });
+
+
+    console.log("with_ : ",with_);
+    console.log("without : ",without);
+
+    return {
+      ansQuestions: answered
+        .sort((a,b) =>b.timestamp - a.timestamp)
+        .map((an)=>an.id),
+      
+      unAnsQuestions: notanswer
+        .sort((a,b) =>b.timestamp - a.timestamp)
+        .map((an)=>an.id),
+        //.sort((a,b) => questions[b].timestamp - questions[a].timestamp)
+    }
+  }
+
+
+export default connect(mapStateToProps)(Dashboard)
