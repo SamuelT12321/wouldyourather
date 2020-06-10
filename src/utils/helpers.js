@@ -25,3 +25,10 @@ export function formatQuestion (question, author, authedUser){
   }
 }
 
+export function truncateString(str, start, end) {
+  if (str.length <= end) {
+    return str
+  }
+  return '..'+str.slice(start, end) + '...'
+}
+

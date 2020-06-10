@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import M, { objectSelectorString } from 'materialize-css/dist/js/materialize.min.js'
 import { queries } from '@testing-library/react';
-import Question from './Question'
+import QuestionCard from './QuestionCard'
 
 export class Dashboard extends Component {
     componentDidMount(){
@@ -23,9 +23,7 @@ export class Dashboard extends Component {
               <ul className="collection">
                 {this.props.unAnsQuestionsIds.map((id)=>(
                   <li className="collection-item avatar" key={id}>
-                    <div>
-                      <Question id={id}/>
-                    </div>
+                      <QuestionCard id={id}/>
                   </li>
                 ))}
               </ul>	    	
@@ -36,7 +34,7 @@ export class Dashboard extends Component {
                 {this.props.ansQuestionsIds.map((id)=>(
                   <li className="collection-item avatar" key={id}>
                      <div>
-                       <Question id={id}/>
+                       <QuestionCard id={id}/>
                      </div>
                    </li>
                 ))}
