@@ -6,12 +6,12 @@ export class QuestionCard extends Component {
     toAnswer = (e, id) => {
         e.preventDefault()
         //todo: redirect to answer question
-        alert('toAnswer');
+        alert('toAnswer : ' + id);
     }
     toAnswered=(e,id) =>{
         e.preventDefault()
         //todo: redirect to answer question
-        alert('toAnswered');
+        alert('toAnswered with id : '+ id);
     }
     render() {
         const { question } = this.props;
@@ -22,11 +22,11 @@ export class QuestionCard extends Component {
                      alt="" 
                      className="circle" />
                 <span className="title">{name} ask</span>
-                <p>{truncateString(optionOneText,0,15)}</p>
+                <p>{truncateString(optionOneText+ optionTwoText,0,15)}</p>
                 <span className="truncate">{formatDate(timestamp)}</span>
                 <button
                     onClick={(e) => isAnswer ? this.toAnswered(e,id): this.toAnswer(e, id)} 
-                    class="waves-effect waves-teal btn-flat secondary-content" 
+                    className="waves-effect waves-teal btn-flat secondary-content" 
                     type="button" 
                     name="action">
                         View Poll
@@ -38,7 +38,8 @@ export class QuestionCard extends Component {
 
 function mapStateToProps({authedUser, users, questions},{id}) {
     const quesiton = questions[id]
-
+    console.log(typeof quesiton);
+    console.log(quesiton)
     return{
         authedUser,
         question: formatQuestion(quesiton, users[quesiton.author],authedUser)
