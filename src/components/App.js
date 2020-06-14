@@ -4,7 +4,7 @@ import { handleInitialData } from '../actions/shared'
 import Dashboard from './Dashboard';
 import Navbar from './Navbar'
 import LoadingBar from 'react-redux-loading'
-import QuestionCardAnswer from './QuestionCardAnswer'
+import AnswerQuestion from './AnswerQuestion'
 import QuestionCard from './QuestionCard'
 
 class App extends Component{
@@ -18,7 +18,7 @@ class App extends Component{
           <div className='continer'>
             <Navbar/>
             {/* <QuestionCard id='am8ehyc8byjqgar0jgpub9'/> */}
-            <QuestionCardAnswer id='am8ehyc8byjqgar0jgpub9'/>
+            <AnswerQuestion id='am8ehyc8byjqgar0jgpub9'/>
             {/* <Dashboard/> */}
           </div>
       </div>

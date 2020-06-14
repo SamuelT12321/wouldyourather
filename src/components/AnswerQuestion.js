@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { formatQuestion } from '../utils/helpers'
 import { handleAddQuestionAnswer } from '../actions/questions'
 
-export class QuestionCardAnswer extends Component {
+export class AnswerQuestion extends Component {
     state={
         selectedOption:'',
     }
@@ -22,18 +22,20 @@ export class QuestionCardAnswer extends Component {
             qid: id,
             answer : this.state.selectedOption,
         }))
-        
-        //redirect back to dashboard
-        
-        //answer can be optionOne or optionTwo
-        //update users[authedUser].answers = ...object.add object.property { questionid : answer} 
-        //update question[id].answer.votes.concat(authedUser)
     }
     render() {
         //console.log(this.props);
-        const { question } = this.props;
-        const { avatar, id, name, optionOneText, optionTwoText } = question
-
+        const { question,users,authedUser } = this.props;
+        const { avatar, id, name, optionOneText, optionTwoText } = question;
+        const answers =!users[authedUser] ? null : 
+                  (!users[authedUser].answers ? null : users[authedUser].answers);
+        let answered = null;
+        if (answers!== null){
+            if(answers[id])
+            answered=answers[id];
+        }
+        
+        console.log("answered : ",answered);
         return (
             <form className="row" onSubmit={this.handleSubmit}>
                 <div className="col s8 offset-s2">
@@ -82,6 +84,7 @@ export class QuestionCardAnswer extends Component {
 function mapStateToProps({authedUser, users, questions},{id}) {
     const quesiton = questions[id]
     return{
+        users,
         authedUser,
         id,
         question: !questions[id]
@@ -90,4 +93,4 @@ function mapStateToProps({authedUser, users, questions},{id}) {
     }
 }
 
-export default connect(mapStateToProps)(QuestionCardAnswer)
+export default connect(mapStateToProps)(AnswerQuestion)
