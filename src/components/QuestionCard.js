@@ -38,8 +38,6 @@ export class QuestionCard extends Component {
 
 function mapStateToProps({authedUser, users, questions},{id}) {
     const quesiton = questions[id]
-    console.log(typeof quesiton);
-    console.log(quesiton)
     return{
         authedUser,
         question: formatQuestion(quesiton, users[quesiton.author],authedUser)
