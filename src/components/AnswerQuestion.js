@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { formatQuestion } from '../utils/helpers'
 import { handleAddQuestionAnswer } from '../actions/questions'
+import M, { objectSelectorString } from 'materialize-css/dist/js/materialize.min.js'
 
 export class AnswerQuestion extends Component {
     state={
@@ -15,7 +16,7 @@ export class AnswerQuestion extends Component {
       }
     handleSubmit = (e) => {
         e.preventDefault();
-        const { dispatch,authedUser, question, id } =this.props
+        const { dispatch, authedUser, id } =this.props
 
         dispatch(handleAddQuestionAnswer({
             authedUser,
@@ -25,58 +26,134 @@ export class AnswerQuestion extends Component {
     }
     render() {
         //console.log(this.props);
-        const { question,users,authedUser } = this.props;
-        const { avatar, id, name, optionOneText, optionTwoText } = question;
-        const answers =!users[authedUser] ? null : 
+        const { question, users, authedUser } = this.props;
+        const { avatar, id, name, optionOneText, optionTwoText, optionOneAnsLen, optionTwoAnsLen } = question;
+        const answers =! users[authedUser] ? null : 
                   (!users[authedUser].answers ? null : users[authedUser].answers);
         let answered = null;
         if (answers!== null){
             if(answers[id])
             answered=answers[id];
         }
+
         
+        
+        const totalAns = optionOneAnsLen + optionTwoAnsLen;
+
+        console.log("totalAns : ",totalAns)
+
+        let optionOnePercentage ='30%'
+        let optionTwoPercentage ='70%'
+        if(answered){
+            //any logic related to answered page
+            optionOnePercentage=  optionOneAnsLen/totalAns * 100+ '%'
+            optionTwoPercentage= optionTwoAnsLen/totalAns * 100+ '%'
+            console.log(answered)
+
+        }
+        //style
+        const optionOneProBarstyle = { width: optionOnePercentage, animation: "grow 2s" };
+        const optionTwoProBarstyle = { width: optionTwoPercentage, animation: "grow 2s" };
         console.log("answered : ",answered);
         return (
-            <form className="row" onSubmit={this.handleSubmit}>
+            
+            <div className="row">
                 <div className="col s8 offset-s2">
                     <div className="card blue-grey darken-1">
                         <div className="card-content white-text">
-                        <img alt='avatar center img' className="imgcenter" src={avatar}/>
-                        <span className="card-title">{name} ask would you rather</span>
-                        <ul className="collection">
-                            <li className="collection-item">
-                                <label>
-                                    <input type="radio" 
-                                           name="group1" 
-                                           value="optionOne"
-                                           checked={this.state.selectedOption === "optionOne"}
-                                           onChange={this.handleChange}
-                                           />
-                                    <span>{optionOneText}</span>
-                                </label>
-                            </li>
-                            <li className="collection-item">
-                                <label>
-                                    <input type="radio" 
-                                           name="group1" 
-                                           value="optionTwo"
-                                           checked={this.state.selectedOption === "optionTwo"}
-                                           onChange={this.handleChange}
-                                           />
-                                    <span>{optionTwoText}</span>
-                                </label>
-                            </li>
-                        </ul>
-                        </div>
-                        <div className="card-action center-align">
-                            <button className={`btn waves-effect waves-light ${this.state.selectedOption===''? "disabled" : ''}`}
-                                    type="submit">
-                                    Submit
-                            </button>
+                            {answered && 
+                                <span className="card-title">Result</span>
+                            }
+                            <img alt='avatar center img' className="imgcenter" src={avatar}/>
+                            
+                                {!answered  
+                                ?<span className="card-title">{name} ask would you rather</span>
+                                :<span className="card-title">Asked by {name}</span>
+                                }
+                            
+                            {!answered &&
+                                <div>
+                                    <form onSubmit={this.handleSubmit}>
+                                        <ul className="collection">
+                                            <li className="collection-item">
+                                                <label>
+                                                    <input type="radio" 
+                                                        name="group1" 
+                                                        value="optionOne"
+                                                        checked={this.state.selectedOption === "optionOne"}
+                                                        onChange={this.handleChange}
+                                                        />
+                                                    <span>{optionOneText}</span>
+                                                </label>
+                                            </li>
+                                            <li className="collection-item">
+                                                <label>
+                                                    <input type="radio" 
+                                                        name="group1" 
+                                                        value="optionTwo"
+                                                        checked={this.state.selectedOption === "optionTwo"}
+                                                        onChange={this.handleChange}
+                                                        />
+                                                    <span>{optionTwoText}</span>
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </form>
+                                    <div className="card-action center-align">
+                                        <button className={`btn waves-effect waves-light ${this.state.selectedOption===''? "disabled" : ''}`}
+                                                type="submit">
+                                                Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                            {answered &&
+                            <div>
+                                <ul className="collection">
+                                    <li className={"collection-item "+ (answered === 'optionOne' ? 'teal lighten-5' : '') }>
+                                        <label>
+                                            <span>{optionOneText}</span>
+                                            {answered === 'optionOne' && <span className="badge orange lighten-3 white-text">Your vote</span>}
+                                        </label>
+                                        <div id="modded">
+                                            <div className="progress blue lighten-4 tooltipped" data-position="top" data-tooltip="Progress was at 50% when tested">
+                                            <span>Progress</span>
+                                            <div className="determinate blue" style={optionOneProBarstyle}>{optionOnePercentage}</div>
+                                        </div>
+                                    </div>
+                                    <div className="center-align">
+                                        <span className="grey-text">{optionOneAnsLen} out of {totalAns} votes</span>
+                                    </div>
+                                    </li>
+                                    <li className={"collection-item "+ (answered === 'optionTwo' ? 'teal lighten-5' : '') }>
+                                        <label>
+                                            <span>{optionTwoText}</span>
+                                            {answered === 'optionTwo' && <span className="badge orange lighten-3 white-text">Your vote</span>}
+                                        </label>
+                                        <div id="modded">
+                                            <div className="progress blue lighten-4 tooltipped" data-position="top" data-tooltip="Progress was at 50% when tested">
+                                            <span>Progress</span>
+                                            <div className="determinate blue" style={optionTwoProBarstyle}>{optionTwoPercentage}</div>
+                                        </div>
+                                    </div>
+                                    <div className="center-align">
+                                        <span className="grey-text">{optionTwoAnsLen} out of {totalAns} votes</span>
+                                    </div>
+                                    </li>
+                                </ul>
+                                <div className="card-action center-align">
+                                <button className={`btn waves-effect waves-light'}`}
+                                        type="button">
+                                        Return
+                                </button>
+                                </div>
+                            </div>
+                            }
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
+
         )
     }
 }

@@ -10,9 +10,10 @@ export function formatQuestion (question, author, authedUser){
   const { name, avatarURL } = author
   // have authedUser found in optionOne.votes or optionTwo.votes  
   const isAnswer = question.optionOne.votes.includes(authedUser) || question.optionTwo.votes.includes(authedUser)?true:false ; 
-  const optionOneText =question.optionOne.text; 
+  const optionOneText = question.optionOne.text; 
   const optionTwoText = question.optionTwo.text;
-
+  const optionOneAnsLen = question.optionOne.votes.length;
+  const optionTwoAnsLen = question.optionTwo.votes.length;
   // can result page question mix with this ?
   return {
     name,
@@ -21,7 +22,9 @@ export function formatQuestion (question, author, authedUser){
     avatar:avatarURL,
     isAnswer,
     optionOneText,
-    optionTwoText
+    optionTwoText,
+    optionOneAnsLen,
+    optionTwoAnsLen
   }
 }
 

@@ -5,7 +5,7 @@ let users = {
     avatarURL: 'https://cdn4.iconfinder.com/data/icons/diversity-v2-0-volume-03/64/superhero-batgirl-superhero-asian-redhead-512.png',
     answers: {
       "8xf0y6ziyjabvozdd253nd": 'optionOne',
-      "6ni6ok3ym7mf1p33lnez": 'optionOne',
+      "6ni6ok3ym7mf1p33lnez": 'optionTwo',
       "am8ehyc8byjqgar0jgpub9": 'optionTwo',
       "loxhs1bqm25b708cmbf3g": 'optionTwo'
     },

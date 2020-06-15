@@ -36,3 +36,25 @@ margin-right: auto;
 width: 30%;
 border-radius: 50%;
 }
+
+#modded .progress {
+  min-height: 36px;
+  overflow: hidden;
+  position: relative;
+  }
+  #modded span {
+  position: relative;
+  float:left;
+  color: #fff;
+  padding: 8px;
+  z-index: 99999;
+  }
+  #modded .determinate {
+    width: 0;
+    transition: width 1s ease-in-out;
+    padding: 8px;
+    position: relative;
+    color: #fff;
+    text-align: right;
+    white-space: nowrap;
+  }
