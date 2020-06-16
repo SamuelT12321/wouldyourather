@@ -34,22 +34,15 @@ export class AnswerQuestion extends Component {
         if (answers!== null){
             if(answers[id])
             answered=answers[id];
-        }
-
-        
-        
+        }   
         const totalAns = optionOneAnsLen + optionTwoAnsLen;
 
-        console.log("totalAns : ",totalAns)
-
-        let optionOnePercentage ='30%'
-        let optionTwoPercentage ='70%'
+        let optionOnePercentage ='0%'
+        let optionTwoPercentage ='0%'
         if(answered){
             //any logic related to answered page
             optionOnePercentage=  optionOneAnsLen/totalAns * 100+ '%'
             optionTwoPercentage= optionTwoAnsLen/totalAns * 100+ '%'
-            console.log(answered)
-
         }
         //style
         const optionOneProBarstyle = { width: optionOnePercentage, animation: "grow 2s" };
@@ -70,7 +63,6 @@ export class AnswerQuestion extends Component {
                                 ?<span className="card-title">{name} ask would you rather</span>
                                 :<span className="card-title">Asked by {name}</span>
                                 }
-                            
                             {!answered &&
                                 <div>
                                     <form onSubmit={this.handleSubmit}>
@@ -153,7 +145,6 @@ export class AnswerQuestion extends Component {
                     </div>
                 </div>
             </div>
-
         )
     }
 }
