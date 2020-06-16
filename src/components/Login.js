@@ -2,34 +2,40 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import M, { objectSelectorString } from 'materialize-css/dist/js/materialize.min.js'
 import LoginFrom from './LoginFrom'
+import { setAuthedUser } from '../actions/authedUser'
 
 export class Login extends Component {
     state={
-        selectedUser:'',
+        userId:null,
     }
 
     componentDidUpdate(){
-         var elems = document.querySelectorAll('select');
-         var instances = M.FormSelect.init(elems, {});
-        console.log("component did mount");
+        M.FormSelect.init(this.FormSelect);
     }
 
-    onSelectUser = (e) => {
-        const selectedUser = e.target.value
+    handleChange = event => {
+        const userId = event.target.value
         this.setState(() => ({
-            selectedUser,
+            userId,
         }))
-      }
- 
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const { dispatch } =this.props
+        const { userId } = this.state
+        
+        dispatch(setAuthedUser(userId))
+    }
+
     render() {
         const {users , authedUser, userList} = this.props
-
+        const { userId } = this.state
         const optionList = userList.map((key) => {
             const {id, name , avatarURL} = key
             return <option key={id} value={id} data-icon={avatarURL} className="left">{name}</option>
         })
-        
-        console.log("selectList",optionList)
+    
         return (
             <div className="row">
             <div id="test1" className="col s6 offset-s3">
@@ -43,12 +49,13 @@ export class Login extends Component {
                       </div>
                   </div>
 
-                  <form>
+                  <form onSubmit={this.handleSubmit}>
                     <div className="row">
                         <div className="input-field col s12">
-                                <select className="icons" 
+                                <select ref={FormSelect => {this.FormSelect = FormSelect;}}
+                                        className="icons" 
                                         name="login"
-                                        onChange={(event) => this.onSelectUser(event.target.value)}
+                                        onChange={this.handleChange}
                                         defaultValue={'DEFAULT'}>
 
                                 <option value="DEFAULT" disabled >Choose your option</option>
@@ -60,8 +67,8 @@ export class Login extends Component {
                     </div>
         
                     <div className="row center-align">
-                        <button className={`btn waves-effect waves-light btn'}`}
-                                type="button">
+                        <button className={`btn waves-effect waves-light btn ${userId===null? "disabled" : ''}`}
+                                type="submit">
                                 Login
                         </button>
                     </div>
