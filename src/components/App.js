@@ -6,6 +6,7 @@ import Navbar from './Navbar'
 import LoadingBar from 'react-redux-loading'
 import AnswerQuestion from './AnswerQuestion'
 import QuestionCard from './QuestionCard'
+import LeaderBoard from './LeaderBoard'
 import Login from './Login'
 
 class App extends Component{
@@ -18,7 +19,8 @@ class App extends Component{
         <LoadingBar style={{ backgroundColor: "#4dd0e1"}}/>
           <div className='continer'>
             <Navbar/>
-            <Login />
+            <LeaderBoard />
+            {/* <Login /> */}
             {/* <QuestionCard id='am8ehyc8byjqgar0jgpub9'/> */}
                 {/* <AnswerQuestion id='6ni6ok3ym7mf1p33lnez'/> */}
             {/* <Dashboard/> */}
