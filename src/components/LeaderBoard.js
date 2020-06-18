@@ -5,13 +5,14 @@ import LeaderBoardScoreCard from './LeaderBoardScoreCard'
 export class LeaderBoard extends Component {
     render() {
         const { users } = this.props
+        console.log("users : ",users)
         return (
-            <div class="row">
-	         <div class="col s6 offset-s3">
-		        <ul class="collection">
-                  { Object.keys(users).map((id)=>(
-                      <li class="collection-item avatar" key={id}>
-                          <LeaderBoardScoreCard id={id} />
+            <div className="row">
+	         <div className="col s6 offset-s3">
+		        <ul className="collection">
+                  { users.map((user, index )=>(
+                      <li className="collection-item avatar" key={user.id}>
+                          <LeaderBoardScoreCard id={user.id} />
                       </li>
                   ))}
                 </ul>
@@ -22,10 +23,12 @@ export class LeaderBoard extends Component {
 }
 
 function mapStateToProps({authedUser, users}) {  
+    const userScore = user =>
+         Object.keys(user.answers).length + user.questions.length
 
     return{
         authedUser,
-        users,
+        users: Object.values(users).sort((a,b) => userScore(b) - userScore(a)),
     }
 }
 export default connect(mapStateToProps)(LeaderBoard) 

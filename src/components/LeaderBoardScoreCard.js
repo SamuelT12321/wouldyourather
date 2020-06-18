@@ -1,25 +1,28 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { formatLeaderBoardUser } from '../utils/helpers'
 
 export class LeaderBoardScoreCard extends Component {
 
     render() {
+        const { user } = this.props
+        const { name, avatarURL, answers, questions } = user
         return (
             <div>
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTaLdxf3ayHfsQc8FSsGdT7N4U-AaEvS0kSYfFZC-pj_VprT9u-&usqp=CAU" alt="" class="circle" />
-		      <span class="title">Jane Doe</span>
-		      <ul class="collection">
-		      		<li class="collection-item">
+              <img src={avatarURL} alt="" className="circle" />
+		      <span className="title">{name}</span>
+		      <ul className="collection">
+		      		<li className="collection-item">
 		      			Answered questions 
-		      			<div class="right">3</div>
+		      			<div className="right">{Object.keys(answers).length}</div>
 		      		</li>
-		      		<li class="collection-item">
+		      		<li className="collection-item">
 		      			Created questions
-		      			<div class="right">5</div>
+                        <div className="right">{questions.length}</div>
 		      		</li>
-		      		<li class="collection-item teal lighten-4">
+		      		<li className="collection-item teal lighten-4">
 		      			Score
-		      			<div class="right ">8</div>
+		      			<div className="right ">{Object.keys(answers).length + questions.length}</div>
 		      		</li>
 		      	</ul> 
             </div>
@@ -28,10 +31,8 @@ export class LeaderBoardScoreCard extends Component {
 }
 function mapStateToProps({users},{id}) {  
     const user = users[id]
-    
     return{
         user
-        
     }
 }
-export default LeaderBoardScoreCard
+export default connect(mapStateToProps)(LeaderBoardScoreCard)
