@@ -22,4 +22,4 @@ Login page `/login`<br />
 
 
 ### License
-myreads is Copyright ©2020 Samuel tam. terms specified in the <a href="https://github.com/SamuelT12321/wouldyourather/blob/master/LICENSE.txt">LICENSE</a> file.
+myreads is Copyright ©2020 Samuel tam. terms specified in the <a href="https://github.com/SamuelT12321/wouldyourather/blob/master/LICENSE">LICENSE</a> file.
