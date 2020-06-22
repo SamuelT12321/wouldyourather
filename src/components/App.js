@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleInitialData } from '../actions/shared'
 import Dashboard from './Dashboard';
@@ -10,6 +10,7 @@ import QuestionCard from './QuestionCard'
 import LeaderBoard from './LeaderBoard'
 import Login from './Login'
 import AskQuestion from './AskQuestion'
+import NoMatch from './NoMatch'
 
 
 class App extends Component{
@@ -25,11 +26,14 @@ class App extends Component{
               {this.props.loading=== true ? null :
                 <div>
                 <Navbar/>
-                <Route path='/' exact component={Dashboard} />
-                <Route path='/login' component={Login} />
-                <Route path='/leaderboard' component={LeaderBoard} />
-                <Route path='/add' component={AskQuestion} />
-                <Route path='/question/:id' component={AnswerQuestion}/>
+                <Switch>
+                  <Route path='/' exact component={Dashboard} />
+                  <Route path='/login' component={Login} />
+                  <Route path='/leaderboard' component={LeaderBoard} />
+                  <Route path='/add' component={AskQuestion} />
+                  <Route path='/question/:id' component={AnswerQuestion}/>
+                  <Route component={NoMatch} />
+                </Switch>
                 </div>
                 
               }

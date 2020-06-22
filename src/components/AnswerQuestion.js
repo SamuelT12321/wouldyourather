@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink,Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { formatQuestion } from '../utils/helpers'
 import { handleAddQuestionAnswer } from '../actions/questions'
@@ -32,6 +32,13 @@ export class AnswerQuestion extends Component {
         const { avatar, id, name, optionOneText, optionTwoText, optionOneAnsLen, optionTwoAnsLen } = question;
         const answers =! users[authedUser] ? null : 
                   (!users[authedUser].answers ? null : users[authedUser].answers);
+
+        console.log(question);
+        //Redirect to No Match page
+        if (Array.isArray(question) && question.length === 0) {
+            return <Redirect to={`/Item Id`} />
+        }
+
         let answered = null;
         if (answers!== null){
             if(answers[id])
