@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { handleAddQuestion } from '../actions/questions'
+import { Redirect } from 'react-router-dom'
 
 export class AskQuestion extends Component {
     state ={
         optionOne:'',
         optionTwo:'',
+        toHome: false,
     }
 
     handleChange = (e) =>{
@@ -27,11 +29,19 @@ export class AskQuestion extends Component {
             optionTwo,
         }))
 
+        this.setState(() => ({
+            toHome: optionOne ? true : false,
+            optionOne : '',
+            optionTwo : '',
+        }))
+        
     }
 
     render() {
-        const { optionOne , optionTwo } = this.state
-
+        const { optionOne , optionTwo ,toHome } = this.state
+        if (toHome === true) {
+            return <Redirect to='/' />
+        }
         return (
             <form onSubmit={this.handleSubmit} className="row">
                 <div id="test1" className="col s6 offset-s3">

@@ -1,17 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { formatQuestion,truncateString, formatDate } from '../utils/helpers'
+import { withRouter } from 'react-router-dom'
 
 export class QuestionCard extends Component {
-    toAnswer = (e, id) => {
+    handleViewPoll = (e, id) => {
         e.preventDefault()
         //todo: redirect to answer question
-        alert('toAnswer : ' + id);
-    }
-    toAnswered=(e,id) =>{
-        e.preventDefault()
-        //todo: redirect to answer question
-        alert('toAnswered with id : '+ id);
+        this.props.history.push(`/question/${id}`)
+
     }
     render() {
         const { question } = this.props;
@@ -25,7 +22,7 @@ export class QuestionCard extends Component {
                 <p>{truncateString(optionOneText+ optionTwoText,0,15)}</p>
                 <span className="truncate">{formatDate(timestamp)}</span>
                 <button
-                    onClick={(e) => isAnswer ? this.toAnswered(e,id): this.toAnswer(e, id)} 
+                    onClick={(e) => this.handleViewPoll(e, id)} 
                     className="waves-effect waves-teal btn-flat secondary-content" 
                     type="button" 
                     name="action">
@@ -44,4 +41,4 @@ function mapStateToProps({authedUser, users, questions},{id}) {
     }
 }
 
-export default connect(mapStateToProps)(QuestionCard)
+export default withRouter(connect(mapStateToProps)(QuestionCard))

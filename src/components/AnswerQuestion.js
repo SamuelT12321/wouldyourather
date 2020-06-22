@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { formatQuestion } from '../utils/helpers'
 import { handleAddQuestionAnswer } from '../actions/questions'
@@ -11,6 +12,7 @@ export class AnswerQuestion extends Component {
     }
     handleChange = (e) => {
         const selectedOption = e.target.value
+
         this.setState(() => ({
             selectedOption,
         }))
@@ -18,7 +20,6 @@ export class AnswerQuestion extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const { dispatch, authedUser, id } =this.props
-
         dispatch(handleAddQuestionAnswer({
             authedUser,
             qid: id,
@@ -48,7 +49,7 @@ export class AnswerQuestion extends Component {
         //style
         const optionOneProBarstyle = { width: optionOnePercentage, animation: "grow 2s" };
         const optionTwoProBarstyle = { width: optionTwoPercentage, animation: "grow 2s" };
-        console.log("answered : ",answered);
+        
         return (
             
             <div className="row">
@@ -91,13 +92,13 @@ export class AnswerQuestion extends Component {
                                                 </label>
                                             </li>
                                         </ul>
-                                    </form>
-                                    <div className="card-action center-align">
+                                        <div className="card-action center-align">
                                         <button className={`btn waves-effect waves-light ${this.state.selectedOption===''? "disabled" : ''}`}
                                                 type="submit">
                                                 Submit
                                         </button>
                                     </div>
+                                    </form>
                                 </div>
                             }
                             {answered &&
@@ -135,10 +136,10 @@ export class AnswerQuestion extends Component {
                                     </li>
                                 </ul>
                                 <div className="card-action center-align">
-                                <button className={`btn waves-effect waves-light'}`}
-                                        type="button">
-                                        Return
-                                </button>
+                                
+                                <NavLink className='btn waves-effect waves-light' to='/' exact activeClassName=''>
+                                     Return
+                                </NavLink>
                                 </div>
                             </div>
                             }
@@ -150,7 +151,8 @@ export class AnswerQuestion extends Component {
     }
 }
 
-function mapStateToProps({authedUser, users, questions},{id}) {
+function mapStateToProps({authedUser, users, questions},props) {
+    const { id } = props.match.params
     const quesiton = questions[id]
     return{
         users,
