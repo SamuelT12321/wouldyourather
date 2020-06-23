@@ -28,12 +28,14 @@ export class AnswerQuestion extends Component {
     }
     render() {
         //console.log(this.props);
-        const { question, users, authedUser } = this.props;
+        const { question, users, authedUser, isLogin} = this.props;
         const { avatar, id, name, optionOneText, optionTwoText, optionOneAnsLen, optionTwoAnsLen } = question;
         const answers =! users[authedUser] ? null : 
                   (!users[authedUser].answers ? null : users[authedUser].answers);
 
         console.log(question);
+        if (!isLogin)return <Redirect to='/login' />
+
         //Redirect to No Match page
         if (Array.isArray(question) && question.length === 0) {
             return <Redirect to={`/Item Id`} />
@@ -161,7 +163,9 @@ export class AnswerQuestion extends Component {
 function mapStateToProps({authedUser, users, questions},props) {
     const { id } = props.match.params
     const quesiton = questions[id]
+    const isLogin = authedUser === null ? false : true
     return{
+        isLogin,
         users,
         authedUser,
         id,

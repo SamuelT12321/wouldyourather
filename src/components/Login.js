@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import M, { objectSelectorString } from 'materialize-css/dist/js/materialize.min.js'
-import LoginFrom from './LoginFrom'
 import { setAuthedUser } from '../actions/authedUser'
 
 export class Login extends Component {
@@ -22,20 +22,25 @@ export class Login extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { dispatch } =this.props
+        const { dispatch, } =this.props
         const { userId } = this.state
-        
+
         dispatch(setAuthedUser(userId))
+
     }
 
     render() {
-        const {users , authedUser, userList} = this.props
+        const {users , authedUser, userList,isLogin} = this.props
         const { userId } = this.state
         const optionList = userList.map((key) => {
             const {id, name , avatarURL} = key
             return <option key={id} value={id} data-icon={avatarURL} className="left">{name}</option>
         })
-    
+
+
+        if(isLogin){
+            return <Redirect to='/' />
+        }
         return (
             <div className="row">
             <div id="test1" className="col s6 offset-s3">
@@ -86,6 +91,7 @@ export class Login extends Component {
 function mapStateToProps({authedUser, users}) {  
 
     let userList = [];
+    const isLogin = authedUser === null ? false : true
 
     for( const key in users)
     {
@@ -97,6 +103,7 @@ function mapStateToProps({authedUser, users}) {
 
     return{
         userList,
+        isLogin,
         authedUser,
         users,
     }

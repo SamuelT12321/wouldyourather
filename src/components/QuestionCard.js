@@ -6,7 +6,6 @@ import { withRouter } from 'react-router-dom'
 export class QuestionCard extends Component {
     handleViewPoll = (e, id) => {
         e.preventDefault()
-        //todo: redirect to answer question
         this.props.history.push(`/question/${id}`)
 
     }
