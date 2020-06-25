@@ -33,9 +33,6 @@ export class AnswerQuestion extends Component {
         const answers =! users[authedUser] ? null : 
                   (!users[authedUser].answers ? null : users[authedUser].answers);
 
-        console.log(question);
-        if (!isLogin)return <Redirect to='/login' />
-
         //Redirect to No Match page
         if (Array.isArray(question) && question.length === 0) {
             return <Redirect to={`/Item Id`} />
@@ -146,7 +143,7 @@ export class AnswerQuestion extends Component {
                                 </ul>
                                 <div className="card-action center-align">
                                 
-                                <NavLink className='btn waves-effect waves-light' to='/' exact activeClassName=''>
+                                <NavLink className='btn waves-effect waves-light' to='/home' exact activeClassName=''>
                                      Return
                                 </NavLink>
                                 </div>

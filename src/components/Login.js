@@ -1,16 +1,18 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect, useHistory} from 'react-router-dom'
 import { connect } from 'react-redux'
 import M, { objectSelectorString } from 'materialize-css/dist/js/materialize.min.js'
 import { setAuthedUser } from '../actions/authedUser'
+import { fakeAuth } from '../utils/api'
 
 export class Login extends Component {
     state={
         userId:null,
+        redirectToPreviousURL : false,
     }
 
     componentDidUpdate(){
-        M.FormSelect.init(this.FormSelect);
+        M.FormSelect.init(this.FormSelect); 
     }
 
     handleChange = event => {
@@ -22,25 +24,34 @@ export class Login extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { dispatch, } =this.props
-        const { userId } = this.state
+        const { dispatch } =this.props
+        const { userId, redirectToPreviousURL } = this.state
 
-        dispatch(setAuthedUser(userId))
+        console.log("before RedirectToPreviousURL : ", redirectToPreviousURL)
+
+        fakeAuth.authenticate(() => {
+            dispatch(setAuthedUser(userId))
+            this.setState({ redirectToPreviousURL: true })
+        })
 
     }
 
     render() {
-        const {users , authedUser, userList,isLogin} = this.props
-        const { userId } = this.state
+        const {userList} = this.props
+        const { userId, redirectToPreviousURL } = this.state
         const optionList = userList.map((key) => {
             const {id, name , avatarURL} = key
             return <option key={id} value={id} data-icon={avatarURL} className="left">{name}</option>
         })
-
-
-        if(isLogin){
-            return <Redirect to='/' />
+        
+        const { from } = this.props.location.state || {
+            from: { pathname: '/home' }
         }
+
+        if (redirectToPreviousURL === true) {
+            return <Redirect to={from} />
+        }
+
         return (
             <div className="row">
             <div id="test1" className="col s6 offset-s3">

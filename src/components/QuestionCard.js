@@ -11,7 +11,7 @@ export class QuestionCard extends Component {
     }
     render() {
         const { question } = this.props;
-        const { avatar, id, isAnswer, name, optionOneText, optionTwoText, timestamp } = question
+        const { avatar, id, name, optionOneText, optionTwoText, timestamp } = question
         return (
             <div>
                 <img src={avatar} 

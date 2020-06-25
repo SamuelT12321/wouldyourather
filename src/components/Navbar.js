@@ -1,12 +1,22 @@
 import React, { Component,Fragment  } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink,Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { clearAuthedUser } from '../actions/authedUser'
 
 export class Navbar extends Component {
-    render() {
-        const { authedUser, isLogin , name, avatar} = this.props
-        // id: 'sarahedo',
+    handleLogout = (e) => {
+        e.preventDefault();
+       
+        //redirect to login page
+        console.log('The link was clicked.');
+        this.props.dispatch(clearAuthedUser())
+    };
 
+    render() {
+        const {isLogin , name, avatar} = this.props
+        if(!isLogin){
+            return <Redirect to="/" />
+        }
         return (
             <Fragment >
                 <nav>
@@ -17,7 +27,7 @@ export class Navbar extends Component {
                             <div className="chip loginchip">
                                  <img alt="Avatar Icon" src={avatar} />
                                 {name}
-                                <a className="secondary-content" href="#!">
+                                <a className="secondary-content" href="#" onClick={this.handleLogout}>
                                     <i className="logout material-icons">Logout</i>
                                 </a>
                             </div>
