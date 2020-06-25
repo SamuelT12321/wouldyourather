@@ -24,18 +24,14 @@ class App extends Component{
           <div className='continer'>
             <LoadingBar style={{ backgroundColor: "#4dd0e1"}}/>
                 <Navbar/>
-                {this.props.loading === true ? null : (
-                  <Switch>
-                      <Fragment>
-                          <Route path='/' exact component={Login}/>
-                          <PrivateRoute path='/home' exact component={Dashboard} />
-                          <PrivateRoute path='/leaderboard' component={LeaderBoard}/>
-                          <PrivateRoute path='/add' component={AskQuestion} />
-                          <PrivateRoute path='/question/:id' component={AnswerQuestion} />
-                      </Fragment>
-                    <Route component={PageNotFound} />
-                  </Switch>
-                )}
+                <Switch>
+                  <Route path='/' exact component={Login}/>
+                  <PrivateRoute path='/home' exact component={Dashboard} />
+                  <PrivateRoute path='/leaderboard' exact component={LeaderBoard}/>
+                  <PrivateRoute path='/add' exact component={AskQuestion} />
+                  <PrivateRoute path='/question/:id' exact component={AnswerQuestion} />
+                  <PrivateRoute component={PageNotFound} />
+                </Switch>  
           </div>
         </Fragment>
       </Router>

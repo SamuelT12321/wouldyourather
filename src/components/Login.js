@@ -1,19 +1,23 @@
 import React, { Component } from 'react'
-import { Redirect, useHistory} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import M, { objectSelectorString } from 'materialize-css/dist/js/materialize.min.js'
 import { setAuthedUser } from '../actions/authedUser'
 import { fakeAuth } from '../utils/api'
+import { clearAuthedUser } from '../actions/authedUser'
 
 export class Login extends Component {
     state={
         userId:null,
         redirectToPreviousURL : false,
     }
-
-    componentDidUpdate(){
-        M.FormSelect.init(this.FormSelect); 
+    componentDidMount(){
+        //M.AutoInit();
+        this.props.dispatch(clearAuthedUser())
     }
+     componentDidUpdate(){
+         M.AutoInit();
+     }
 
     handleChange = event => {
         const userId = event.target.value
@@ -26,8 +30,6 @@ export class Login extends Component {
         e.preventDefault();
         const { dispatch } =this.props
         const { userId, redirectToPreviousURL } = this.state
-
-        console.log("before RedirectToPreviousURL : ", redirectToPreviousURL)
 
         fakeAuth.authenticate(() => {
             dispatch(setAuthedUser(userId))

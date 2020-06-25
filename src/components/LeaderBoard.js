@@ -5,7 +5,6 @@ import LeaderBoardScoreCard from './LeaderBoardScoreCard'
 export class LeaderBoard extends Component {
     render() {
         const { users } = this.props
-        console.log("users : ",users)
         return (
             <div className="row">
 	         <div className="col s6 offset-s3">
