@@ -40,7 +40,7 @@ export class AskQuestion extends Component {
     render() {
         const { optionOne , optionTwo ,toHome } = this.state
         if (toHome === true) {
-            return <Redirect to='/' />
+            return <Redirect to='/home' />
         }
         return (
             <form onSubmit={this.handleSubmit} className="row">
